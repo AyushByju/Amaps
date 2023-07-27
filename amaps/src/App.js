@@ -4,8 +4,8 @@ import SearchBox from './components/search/search';
 function App() {
   return (
     <div className="App">
-      {/* <Map /> */}
-      <SearchBox />
+      <Map />
+      {/* <SearchBox /> */}
     </div>
   );
 }
