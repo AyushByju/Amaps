@@ -5,7 +5,28 @@ import './map.css';
 const Map = () => {
   const mapRef = useRef();
 
-  const earthquakeFeed = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
+  // Define your own lat/lon data
+  const myData = [
+    { latitude: 39.9526, longitude: -75.1652 },
+    { latitude: 40.7128, longitude: -74.0060 },
+  ];
+
+  // Convert to GeoJSON
+  const geoJsonData = {
+    type: "FeatureCollection",
+    features: myData.map((point, index) => ({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [point.longitude, point.latitude]
+      },
+      properties: { 
+        id: index,
+        point_count: 1, // Added placeholder
+        point_count_abbreviated: 1 // Added placeholder
+      }
+    })),
+  };
 
   useEffect(() => {
     const map = new atlas.Map(mapRef.current, {
@@ -18,16 +39,16 @@ const Map = () => {
         subscriptionKey: 'KwjqTa8_DPXtc3DI3I76qExoHp6FbHhHqiaoHyreDbU',
       },
     });
-
+  
     map.events.add('ready', () => {
       const datasource = new atlas.source.DataSource(null, {
         cluster: true,
         clusterRadius: 45,
         clusterMaxZoom: 15
       });
-
+  
       map.sources.add(datasource);
-
+  
       const clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
         createIndicators: true,
         radius: ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
@@ -35,48 +56,23 @@ const Map = () => {
         strokeWidth: 0,
         filter: ['has', 'point_count']
       });
-
-      map.events.add('click', clusterBubbleLayer, (e) => {
-        if (e.shapes && e.shapes.length > 0 && e.shapes[0].properties.cluster) {
-          const cluster = e.shapes[0];
-          datasource.getClusterExpansionZoom(cluster.properties.cluster_id)
-            .then(zoom => {
-              map.setCamera({
-                center: cluster.geometry.coordinates,
-                zoom: zoom,
-                type: 'ease',
-                duration: 200
-              });
-            });
+  
+      map.layers.add(clusterBubbleLayer);
+  
+      const symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+        filter: ['!', ['has', 'point_count']],
+        iconOptions: {
+          image: ['concat', ['to-string', ['get', 'icon']], '']
         }
       });
-
-      map.events.add('mouseenter', clusterBubbleLayer, () => {
-        map.getCanvasContainer().style.cursor = 'pointer';
-      });
-
-      map.events.add('mouseleave', clusterBubbleLayer, () => {
-        map.getCanvasContainer().style.cursor = 'grab';
-      });
-
-      map.layers.add([
-        clusterBubbleLayer,
-        new atlas.layer.SymbolLayer(datasource, null, {
-          iconOptions: { image: 'none' },
-          textOptions: {
-            textField: ['get' , 'point_count_abbreviated'],
-            offset: [0, 0.4]
-          }
-        }),
-        new atlas.layer.SymbolLayer(datasource, null, {
-          filter: ['!', ['has', 'point_count']]
-        })
-      ]);
-
-      datasource.importDataFromUrl(earthquakeFeed);
+  
+      map.layers.add(symbolLayer);
+  
+      // Replace importData with add
+      datasource.add(geoJsonData);
+      
     });
-
-
+  
   }, []);
 
   return <div ref={mapRef} style={{ width: '100%', height: '600px' }} />;
