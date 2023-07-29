@@ -1,11 +1,11 @@
+import React from 'react';
 import './App.css';
-import Map from './components/map/map';
-import SearchBox from './components/search/search';
+import ParentComponent from './components/parent/parent';
+
 function App() {
   return (
     <div className="App">
-      <Map />
-      {/* <SearchBox /> */}
+      <ParentComponent />
     </div>
   );
 }
