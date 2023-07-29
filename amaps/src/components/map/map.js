@@ -8,7 +8,7 @@ const AzureMap = ({ data }) => {
 
   useEffect(() => {
     const mapInstance = new atlas.Map(mapRef.current, {
-      center: [-97, 39],
+      center: [-96.818, 55.396],
       zoom: 3,
       style: 'night',
       view: 'Auto',
