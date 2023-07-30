@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { apiinfo } from '../../api/apiinfo'; // adjust path as necessary
+import './info.css';
 
 const Info = ({ searchQuery }) => {
   const [data, setData] = useState([]);
