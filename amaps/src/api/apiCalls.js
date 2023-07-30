@@ -10,6 +10,7 @@ export async function fetchData(searchTerm) {
 
   try {
     const response = await axios.get(url, { headers });
+    console.log(url);
     const processedData = response.data.value.map(item => {
       const { lon, lat } = extractLatLng(item.Description);
       // Return an object with latitude and longitude properties

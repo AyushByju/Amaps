@@ -13,7 +13,7 @@ const SearchBox = ({ onFetchData }) => {
     event.preventDefault();
     try {
       const data = await fetchData(searchInput);
-      onFetchData(data);
+      onFetchData(data, searchInput);
     } catch (error) {
       console.error(`Error: ${error}`);
     }
