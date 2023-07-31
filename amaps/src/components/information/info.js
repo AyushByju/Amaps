@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { apiinfo } from '../../api/apiinfo'; // adjust path as necessary
+import { apiinfo } from '../../api/apiinfo';
 import './info.css';
 
 const Info = ({ searchQuery }) => {
@@ -20,11 +20,15 @@ const Info = ({ searchQuery }) => {
   if (!data) return null;
 
   return (
-    <div>
-      {/* Display data here */}
-      {/* You can use `data` to display its information as needed */}
+    <div style={{ border: '2px solid grey', maxHeight: '50vh', width: '50%', overflowY: 'auto', padding: '10px', marginTop: '20px' }}>
       {data.map((item, index) => (
-        <div key={index} dangerouslySetInnerHTML={{__html: item.Description}}></div>
+        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+          <div>
+            <h3>{item.Company_Name}</h3>
+            <div dangerouslySetInnerHTML={{__html: item.Description}} />
+            {item.Thumbnail && <img src={item.Thumbnail} alt={item.Company_Name} style={{width: '100px', height: 'auto'}} />}
+          </div>
+        </div>
       ))}
     </div>
   )
