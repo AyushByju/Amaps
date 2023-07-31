@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as atlas from 'azure-maps-control';
 import 'azure-maps-control/dist/atlas.min.css';
+import customIcon from '../../images/pin.jpg' // Import your JPEG icon image
 
 const AzureMap = ({ data }) => {
   const [map, setMap] = useState(null);
@@ -18,7 +19,9 @@ const AzureMap = ({ data }) => {
       },
     });
 
-    mapInstance.events.add('ready', () => {
+    mapInstance.events.add('ready', async () => {
+      // Load custom icon into image sprite and wait for it to complete
+      await mapInstance.imageSprite.add('customIcon', customIcon);
       setMap(mapInstance);
     });
 
@@ -35,7 +38,6 @@ const AzureMap = ({ data }) => {
       dataSource = new atlas.source.DataSource('dataSource');
       map.sources.add(dataSource);
     } else {
-      // If the data source already exists, clear it before adding new data.
       dataSource.clear();
     }
   
@@ -48,7 +50,13 @@ const AzureMap = ({ data }) => {
     let symbolLayer = map.layers.getLayerById('symbolLayer');
   
     if (!symbolLayer) {
-      symbolLayer = new atlas.layer.SymbolLayer(dataSource, 'symbolLayer');
+      symbolLayer = new atlas.layer.SymbolLayer(dataSource, 'symbolLayer', {
+        iconOptions: {
+          image: 'customIcon',  // Use custom icon in symbol layer
+          size: 0.1 // Adjust the size as needed
+        }
+      });
+      
       map.layers.add(symbolLayer);
     }
   
