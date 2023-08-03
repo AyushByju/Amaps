@@ -9,7 +9,7 @@ export const apiinfo = async (searchTerm) => {
   };
 
   try {
-    console.log(url);
+    // console.log(url);
     const response = await axios.get(url, { headers });
     const infoData = response.data.value; // return the whole item, not just the Information property
     return infoData;
