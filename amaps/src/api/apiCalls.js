@@ -12,11 +12,12 @@ export async function fetchData(searchTerm) {
     const response = await axios.get(url, { headers });
     const processedData = response.data.value.map(item => {
       const { lon, lat } = extractLatLng(item.Description);
-      // Include CFIN_Category
+      // Include CFIN_Category and Product_or_Service
       return { 
         latitude: lat, 
         longitude: lon,
-        CFIN_Category: item.CFIN_Category
+        CFIN_Category: item.CFIN_Category,
+        Product_or_Service: item.Product_or_Service // Add this line
       };
     });
 
