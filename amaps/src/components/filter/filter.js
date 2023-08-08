@@ -1,36 +1,23 @@
-// CheckboxFilter.js
-import React, { useState } from 'react';
-import './filter.css'; // Importing CSS
+import React from 'react';
+import './filter.css';
 
-const CheckboxFilter = ({ categories, checkedCategories, onCategoryToggle }) => {
-  const [isOpen, setIsOpen] = useState(false); // Toggle for dropdown menu
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
+const CheckboxFilter = ({ title, categories, checkedCategories, onCategoryToggle }) => {
   return (
     <div className="filter-container">
-      <button onClick={handleToggle} className="dropdown-btn">
-        CFIN_Category {isOpen ? '▲' : '▼'}
-      </button>
-      {isOpen && (
-        <div className="dropdown-menu">
-          {categories.map((category, index) => (
-            <div key={index} className="filter-item">
-              <label className="filter-label">
-                <input
-                  type="checkbox"
-                  checked={checkedCategories.includes(category)}
-                  onChange={() => onCategoryToggle(category)}
-                  className="filter-checkbox"
-                />
-                {category}
-              </label>
-            </div>
-          ))}
+      <h4>{title}</h4>
+      {categories.map((category, index) => (
+        <div key={index} className="filter-item">
+          <label className="filter-label">
+            <input
+              type="checkbox"
+              checked={checkedCategories.includes(category)}
+              onChange={() => onCategoryToggle(category)}
+              className="filter-checkbox"
+            />
+            {category}
+          </label>
         </div>
-      )}
+      ))}
     </div>
   );
 };

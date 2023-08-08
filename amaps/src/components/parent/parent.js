@@ -57,28 +57,46 @@ const ParentComponent = () => {
 
   // Filter mapData based on checkedCFINCategories and checkedProductServices
   const filteredData = mapData.filter(item => checkedCFINCategories.includes(item.CFIN_Category) && checkedProductServices.includes(item.Product_or_Service));
+  const [isFilterOpen, setFilterOpen] = useState(false);
+
+  const toggleFilter = () => {
+    setFilterOpen(!isFilterOpen);
+  };
 
   return (
-    <div>
+    <div className="main-content">
       <Map data={filteredData} />
       <SearchBox onFetchData={handleDataFetch} />
       <Info searchQuery={searchQuery} />
-      <CheckboxFilter
-        title="CFIN Category"
-        categories={uniqueCFINCategories}
-        checkedCategories={checkedCFINCategories}
-        onCategoryToggle={handleCFINCategoryToggle}
-      />
 
-      <CheckboxFilter
-        title="Product or Service"
-        categories={uniqueProductServices}
-        checkedCategories={checkedProductServices}
-        onCategoryToggle={handleProductServiceToggle}
-      />
+      {searchQuery && (  // Only render if searchQuery is not empty
+        <div className="main-filter-container">
+          <button onClick={toggleFilter}>
+            Filters {isFilterOpen ? '▲' : '▼'}
+          </button>
 
+          {isFilterOpen && (
+            <div className="all-filters">
+              <CheckboxFilter
+                title="CFIN Category"
+                categories={uniqueCFINCategories}
+                checkedCategories={checkedCFINCategories}
+                onCategoryToggle={handleCFINCategoryToggle}
+              />
+
+              <CheckboxFilter
+                title="Product or Service"
+                categories={uniqueProductServices}
+                checkedCategories={checkedProductServices}
+                onCategoryToggle={handleProductServiceToggle}
+              />
+              {/* You can add more filters as needed */}
+            </div>
+          )}
+        </div>
+      )}
     </div>
-  );
+);
 };
 
 export default ParentComponent;

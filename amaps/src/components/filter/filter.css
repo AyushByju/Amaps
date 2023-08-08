@@ -1,29 +1,44 @@
+.main-content {
+  position: relative;
+}
+
+.main-filter-container {
+  width: 50%;  /* Covers half of the screen width */
+  position: fixed;  /* Makes the element fixed in place */
+  top: 56.5%;  /* Positions the top of the element at the middle of the screen */
+  right: 0;  /* Aligns the right side of the element to the right side of the viewport */
+  z-index: 1001; /* To ensure it stays on top of other content but below the button */
+}
+
+.main-filter-container button {
+  background-color: #f2f2f2;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 1002; /* Ensures button stays above the dropdown */
+}
+
+.main-filter-container button:hover {
+  background-color: #ddd;
+}
+
+.all-filters {
+  position: absolute;
+  top: 40px;  /* position it below the button */
+  right: 0;
+  width: 95.87%;
+  max-height: 300px;  
+  overflow-y: auto;  
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* To ensure it stays below the button */
+}
+
 .filter-container {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 45%; /* occupy the right half of the bottom part of the screen */
-    height: 36.1vh; /* set the height to 50% of the viewport height */
-    padding: 20px;
-    overflow-y: auto; /* add scrolling if content overflows */
-    background-color: #f5f5f5; /* add a background color */
-    border: 1px solid #ddd; /* add a border */
-    box-sizing: border-box;
-  }
-  
-  .filter-item {
-    margin-bottom: 10px; /* add some margin between checkboxes */
-  }
-  
-  .filter-label {
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    line-height: 1.2;
-    color: #333;
-  }
-  
-  .filter-checkbox {
-    margin-right: 10px;
-  }
-  
+  padding: 10px;
+}
+
+.filter-item {
+  margin: 5px 0;
+}
