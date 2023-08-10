@@ -9,7 +9,7 @@ const AzureMap = ({ data }) => {
   useEffect(() => {
     const mapInstance = new atlas.Map(mapRef.current, {
       center: [-96.818, 53.396],
-      zoom: 3,
+      zoom: 3.5,
       style: 'grayscale_light',
       view: 'Auto',
       authOptions: {
@@ -59,7 +59,7 @@ const AzureMap = ({ data }) => {
   
   }, [map, data]);
   
-  return <div ref={mapRef} style={{ height: '600px', width: '100%' }} />;
+  return <div ref={mapRef} style={{ height: '650px', width: '100%' }} />;
 }
 
 export default AzureMap;

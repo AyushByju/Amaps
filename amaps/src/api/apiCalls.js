@@ -17,7 +17,12 @@ export async function fetchData(searchTerm) {
         latitude: lat, 
         longitude: lon,
         CFIN_Category: item.CFIN_Category,
-        Product_or_Service: item.Product_or_Service // Add this line
+        Product_or_Service: item.Product_or_Service,
+        Business_Type: item.Business_Type,
+        NAICS: item.NAICS,
+        Province: item.Province,
+        City: item.City,
+        keyphrases: item.keyphrases
       };
     });
 

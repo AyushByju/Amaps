@@ -1,4 +1,3 @@
-// ParentComponent.js
 import React, { useState, useEffect } from 'react';
 import SearchBox from '../search/search.js';
 import Map from '../map/map.js';
@@ -12,53 +11,68 @@ const ParentComponent = () => {
   const [uniqueCFINCategories, setUniqueCFINCategories] = useState([]);
   const [checkedProductServices, setCheckedProductServices] = useState([]);
   const [uniqueProductServices, setUniqueProductServices] = useState([]);
+  const [checkedBusinessTypes, setCheckedBusinessTypes] = useState([]);
+  const [uniqueBusinessTypes, setUniqueBusinessTypes] = useState([]);
+  const [checkedNAICS, setCheckedNAICS] = useState([]);
+  const [uniqueNAICS, setUniqueNAICS] = useState([]);
+  const [checkedProvince, setCheckedProvince] = useState([]);
+  const [uniqueProvince, setUniqueProvince] = useState([]);
+  const [checkedCity, setCheckedCity] = useState([]);
+  const [uniqueCity, setUniqueCity] = useState([]);
+  const [checkedKeyPhrases, setCheckedKeyPhrases] = useState([]);
+  const [uniqueKeyPhrases, setUniqueKeyPhrases] = useState([]);
 
   useEffect(() => {
-    // Extract unique CFIN_Category and Product_or_Service values from mapData
     const CFINCategories = [...new Set(mapData.map(item => item.CFIN_Category))];
     const productServices = [...new Set(mapData.map(item => item.Product_or_Service))];
+    const businessTypes = [...new Set(mapData.map(item => item.Business_Type))];
+    const NAICSValues = [...new Set(mapData.map(item => item.NAICS))];
+    const provinceValues = [...new Set(mapData.map(item => item.Province))];
+    const cityValues = [...new Set(mapData.map(item => item.City))];
+    const keyphraseValues = [...new Set(mapData.map(item => item.keyphrases))];
+
     setUniqueCFINCategories(CFINCategories);
-    setCheckedCFINCategories(CFINCategories);  // Set all CFIN categories as initially checked
+    setCheckedCFINCategories(CFINCategories);
     setUniqueProductServices(productServices);
-    setCheckedProductServices(productServices);  // Set all product services as initially checked
+    setCheckedProductServices(productServices);
+    setUniqueBusinessTypes(businessTypes);
+    setCheckedBusinessTypes(businessTypes);
+    setUniqueNAICS(NAICSValues);
+    setCheckedNAICS(NAICSValues);
+    setUniqueProvince(provinceValues);
+    setCheckedProvince(provinceValues);
+    setUniqueCity(cityValues);
+    setCheckedCity(cityValues);
+    setUniqueKeyPhrases(keyphraseValues);
+    setCheckedKeyPhrases(keyphraseValues);
   }, [mapData]);
-  
 
   const handleDataFetch = (data, query) => {
     setMapData(data);
     setSearchQuery(query);
   };
 
-  // Toggle a CFIN category's checked state
-  const handleCFINCategoryToggle = (category) => {
-    setCheckedCFINCategories(prevState => {
+  const handleToggle = (category, checkedCategories, setCheckedCategories) => {
+    setCheckedCategories(prevState => {
       if (prevState.includes(category)) {
-        // Remove category from checkedCFINCategories
         return prevState.filter(c => c !== category);
       } else {
-        // Add category to checkedCFINCategories
         return [...prevState, category];
       }
     });
   };
 
-  // Toggle a product service's checked state
-  const handleProductServiceToggle = (service) => {
-    setCheckedProductServices(prevState => {
-      if (prevState.includes(service)) {
-        // Remove service from checkedProductServices
-        return prevState.filter(s => s !== service);
-      } else {
-        // Add service to checkedProductServices
-        return [...prevState, service];
-      }
-    });
-  };
+  const filteredData = mapData.filter(item =>
+    checkedCFINCategories.includes(item.CFIN_Category) &&
+    checkedProductServices.includes(item.Product_or_Service) &&
+    checkedBusinessTypes.includes(item.Business_Type) &&
+    checkedNAICS.includes(item.NAICS) &&
+    checkedProvince.includes(item.Province) &&
+    checkedCity.includes(item.City) &&
+    checkedKeyPhrases.includes(item.keyphrases)
+  );
 
-  // Filter mapData based on checkedCFINCategories and checkedProductServices
-  const filteredData = mapData.filter(item => checkedCFINCategories.includes(item.CFIN_Category) && checkedProductServices.includes(item.Product_or_Service));
   const [isFilterOpen, setFilterOpen] = useState(false);
-
   const toggleFilter = () => {
     setFilterOpen(!isFilterOpen);
   };
@@ -68,35 +82,24 @@ const ParentComponent = () => {
       <Map data={filteredData} />
       <SearchBox onFetchData={handleDataFetch} />
       <Info searchQuery={searchQuery} />
-
-      {searchQuery && (  // Only render if searchQuery is not empty
-        <div className="main-filter-container">
-          <button onClick={toggleFilter}>
-            Filters {isFilterOpen ? '▲' : '▼'}
-          </button>
-
-          {isFilterOpen && (
-            <div className="all-filters">
-              <CheckboxFilter
-                title="CFIN Category"
-                categories={uniqueCFINCategories}
-                checkedCategories={checkedCFINCategories}
-                onCategoryToggle={handleCFINCategoryToggle}
-              />
-
-              <CheckboxFilter
-                title="Product or Service"
-                categories={uniqueProductServices}
-                checkedCategories={checkedProductServices}
-                onCategoryToggle={handleProductServiceToggle}
-              />
-              {/* You can add more filters as needed */}
-            </div>
-          )}
-        </div>
-      )}
+      <div className="main-filter-container">
+        <button onClick={toggleFilter}>
+          Filters {isFilterOpen ? '▲' : '▼'}
+        </button>
+        {isFilterOpen && (
+          <div className="all-filters">
+            <CheckboxFilter title="CFIN Category" categories={uniqueCFINCategories} checkedCategories={checkedCFINCategories} onCategoryToggle={(category) => handleToggle(category, checkedCFINCategories, setCheckedCFINCategories)} />
+            <CheckboxFilter title="Product or Service" categories={uniqueProductServices} checkedCategories={checkedProductServices} onCategoryToggle={(service) => handleToggle(service, checkedProductServices, setCheckedProductServices)} />
+            <CheckboxFilter title="Business Type" categories={uniqueBusinessTypes} checkedCategories={checkedBusinessTypes} onCategoryToggle={(type) => handleToggle(type, checkedBusinessTypes, setCheckedBusinessTypes)} />
+            <CheckboxFilter title="NAICS" categories={uniqueNAICS} checkedCategories={checkedNAICS} onCategoryToggle={(naics) => handleToggle(naics, checkedNAICS, setCheckedNAICS)} />
+            <CheckboxFilter title="Province" categories={uniqueProvince} checkedCategories={checkedProvince} onCategoryToggle={(province) => handleToggle(province, checkedProvince, setCheckedProvince)} />
+            <CheckboxFilter title="City" categories={uniqueCity} checkedCategories={checkedCity} onCategoryToggle={(city) => handleToggle(city, checkedCity, setCheckedCity)} />
+            <CheckboxFilter title="Key Phrases" categories={uniqueKeyPhrases} checkedCategories={checkedKeyPhrases} onCategoryToggle={(keyphrase) => handleToggle(keyphrase, checkedKeyPhrases, setCheckedKeyPhrases)} />
+          </div>
+        )}
+      </div>
     </div>
-);
+  );
 };
 
 export default ParentComponent;

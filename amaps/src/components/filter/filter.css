@@ -5,7 +5,7 @@
 .main-filter-container {
   width: 50%;  /* Covers half of the screen width */
   position: fixed;  /* Makes the element fixed in place */
-  top: 56.5%;  /* Positions the top of the element at the middle of the screen */
+  top: 61.5%;  /* Positions the top of the element at the middle of the screen */
   right: 0;  /* Aligns the right side of the element to the right side of the viewport */
   z-index: 1001; /* To ensure it stays on top of other content but below the button */
 }
