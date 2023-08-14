@@ -16,6 +16,7 @@ export async function fetchData(searchTerm) {
       return { 
         latitude: lat, 
         longitude: lon,
+        Company_Name: item.Company_Name,
         CFIN_Category: item.CFIN_Category,
         Product_or_Service: item.Product_or_Service,
         Business_Type: item.Business_Type,

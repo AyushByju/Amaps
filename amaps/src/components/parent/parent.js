@@ -5,6 +5,7 @@ import Info from '../information/info.js';
 import CheckboxFilter from '../filter/filter.js';
 
 const ParentComponent = () => {
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [mapData, setMapData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [checkedCFINCategories, setCheckedCFINCategories] = useState([]);
@@ -79,27 +80,65 @@ const ParentComponent = () => {
 
   return (
     <div className="main-content">
-      <Map data={filteredData} />
-      <SearchBox onFetchData={handleDataFetch} />
-      <Info searchQuery={searchQuery} />
-      <div className="main-filter-container">
-        <button onClick={toggleFilter}>
-          Filters {isFilterOpen ? '▲' : '▼'}
-        </button>
-        {isFilterOpen && (
-          <div className="all-filters">
-            <CheckboxFilter title="CFIN Category" categories={uniqueCFINCategories} checkedCategories={checkedCFINCategories} onCategoryToggle={(category) => handleToggle(category, checkedCFINCategories, setCheckedCFINCategories)} />
-            <CheckboxFilter title="Product or Service" categories={uniqueProductServices} checkedCategories={checkedProductServices} onCategoryToggle={(service) => handleToggle(service, checkedProductServices, setCheckedProductServices)} />
-            <CheckboxFilter title="Business Type" categories={uniqueBusinessTypes} checkedCategories={checkedBusinessTypes} onCategoryToggle={(type) => handleToggle(type, checkedBusinessTypes, setCheckedBusinessTypes)} />
-            <CheckboxFilter title="NAICS" categories={uniqueNAICS} checkedCategories={checkedNAICS} onCategoryToggle={(naics) => handleToggle(naics, checkedNAICS, setCheckedNAICS)} />
-            <CheckboxFilter title="Province" categories={uniqueProvince} checkedCategories={checkedProvince} onCategoryToggle={(province) => handleToggle(province, checkedProvince, setCheckedProvince)} />
-            <CheckboxFilter title="City" categories={uniqueCity} checkedCategories={checkedCity} onCategoryToggle={(city) => handleToggle(city, checkedCity, setCheckedCity)} />
-            <CheckboxFilter title="Key Phrases" categories={uniqueKeyPhrases} checkedCategories={checkedKeyPhrases} onCategoryToggle={(keyphrase) => handleToggle(keyphrase, checkedKeyPhrases, setCheckedKeyPhrases)} />
-          </div>
+        <Map data={filteredData} onSelectCompany={setSelectedCompany} />
+        <SearchBox onFetchData={handleDataFetch} />
+        <Info searchQuery={searchQuery} />
+        
+        {searchQuery && ( // This line ensures filters are displayed only when there's a searchQuery
+            <div className="main-filter-container">
+                <button onClick={toggleFilter}>
+                    Filters {isFilterOpen ? '▲' : '▼'}
+                </button>
+                {isFilterOpen && (
+                    <div className="all-filters">
+                        <CheckboxFilter 
+                            title="CFIN Category" 
+                            categories={uniqueCFINCategories} 
+                            checkedCategories={checkedCFINCategories} 
+                            onCategoryToggle={(category) => handleToggle(category, checkedCFINCategories, setCheckedCFINCategories)} 
+                        />
+                        <CheckboxFilter 
+                            title="Product or Service" 
+                            categories={uniqueProductServices} 
+                            checkedCategories={checkedProductServices} 
+                            onCategoryToggle={(service) => handleToggle(service, checkedProductServices, setCheckedProductServices)} 
+                        />
+                        <CheckboxFilter 
+                            title="Business Type" 
+                            categories={uniqueBusinessTypes} 
+                            checkedCategories={checkedBusinessTypes} 
+                            onCategoryToggle={(type) => handleToggle(type, checkedBusinessTypes, setCheckedBusinessTypes)} 
+                        />
+                        <CheckboxFilter 
+                            title="NAICS" 
+                            categories={uniqueNAICS} 
+                            checkedCategories={checkedNAICS} 
+                            onCategoryToggle={(naics) => handleToggle(naics, checkedNAICS, setCheckedNAICS)} 
+                        />
+                        <CheckboxFilter 
+                            title="Province" 
+                            categories={uniqueProvince} 
+                            checkedCategories={checkedProvince} 
+                            onCategoryToggle={(province) => handleToggle(province, checkedProvince, setCheckedProvince)} 
+                        />
+                        <CheckboxFilter 
+                            title="City" 
+                            categories={uniqueCity} 
+                            checkedCategories={checkedCity} 
+                            onCategoryToggle={(city) => handleToggle(city, checkedCity, setCheckedCity)} 
+                        />
+                        <CheckboxFilter 
+                            title="Key Phrases" 
+                            categories={uniqueKeyPhrases} 
+                            checkedCategories={checkedKeyPhrases} 
+                            onCategoryToggle={(keyphrase) => handleToggle(keyphrase, checkedKeyPhrases, setCheckedKeyPhrases)} 
+                        />
+                    </div>
+                )}
+            </div>
         )}
-      </div>
     </div>
-  );
+);
 };
 
 export default ParentComponent;
