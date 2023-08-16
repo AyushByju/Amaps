@@ -3,6 +3,7 @@ import SearchBox from '../search/search.js';
 import Map from '../map/map.js';
 import Info from '../information/info.js';
 import CheckboxFilter from '../filter/filter.js';
+// import './parent.css';
 
 const ParentComponent = () => {
   const [selectedCompany, setSelectedCompany] = useState(null);

@@ -20,7 +20,7 @@ const Info = ({ searchQuery }) => {
   if (!data) return null;
 
   return (
-    <div style={{ border: '2px solid grey', maxHeight: '50vh', width: '50%', overflowY: 'auto', padding: '10px', marginTop: '20px' }}>
+    <div className="info-container" style={{ border: '2px solid grey', maxHeight: '50vh', width: '50%', overflowY: 'auto', padding: '10px', marginTop: '10px', marginLeft: '1030px' }}>
       {data.map((item, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
           <div>
