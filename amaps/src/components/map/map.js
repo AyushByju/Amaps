@@ -80,7 +80,7 @@ const AzureMap = ({ data, onSelectCompany }) => {
             // Attach click event to the symbol layer
             map.events.add('click', symbolLayer, (event) => {
                 const clickedFeatures = event.shapes;
-                if (clickedFeatures && clickedFeatures.length > 0) {
+                if (clickedFeatures[0] && typeof clickedFeatures[0].getProperties === 'function') {
                     const companyData = clickedFeatures[0].getProperties();
                     setSelectedCompany({
                         Company_Name: companyData.Company_Name,
