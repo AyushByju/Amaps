@@ -73,7 +73,7 @@ const ParentComponent = () => {
     checkedKeyPhrases.includes(item.keyphrases)
   );
 
-  const [isFilterOpen, setFilterOpen] = useState(false);
+  const [isFilterOpen, setFilterOpen] = useState(true);
   const toggleFilter = () => {
     setFilterOpen(!isFilterOpen);
   };
