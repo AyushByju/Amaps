@@ -6,6 +6,8 @@ import CheckboxFilter from '../filter/filter.js';
 // import './parent.css';
 
 const ParentComponent = () => {
+  const [isMapView, setIsMapView] = useState(true);
+  const [isListView, setIsListView] = useState(true);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [mapData, setMapData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,16 +83,34 @@ const ParentComponent = () => {
 
   return (
     <div className="main-content">
-        <Map data={filteredData} onSelectCompany={setSelectedCompany} />
-        <SearchBox onFetchData={handleDataFetch} />
-        <Info searchQuery={searchQuery} />
+      {isMapView && <Map data={filteredData} onSelectCompany={setSelectedCompany} />}
+      <SearchBox onFetchData={handleDataFetch} />
+      {isListView && <Info searchQuery={searchQuery} />}
         
         {searchQuery && ( // This line ensures filters are displayed only when there's a searchQuery
             <div className="main-filter-container">
                 <button onClick={toggleFilter}>
                     Filters {isFilterOpen ? '▲' : '▼'}
                 </button>
-                {isFilterOpen && (
+            <label>
+            <input
+              type="checkbox"
+              checked={isMapView}
+              onChange={() => setIsMapView(prev => !prev)}
+            />
+            Map View
+          </label>
+
+          <label >
+            <input
+              type="checkbox"
+              checked={isListView}
+              onChange={() => setIsListView(prev => !prev)}
+            />
+            List View
+          </label>
+
+          {isFilterOpen && (
                     <div className="all-filters">
                         <CheckboxFilter 
                             title="CFIN Category" 
